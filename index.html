@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSC 2025 Exam Countdown</title>
+    <style>
+        /* General Body Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('https://marketplace.canva.com/EAF0EYsYmsM/1/0/1600w/canva-dark-green-minimalist-illustrated-night-sky-city-landscape-desktop-wallpaper-TGFaNndAajw.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.timedrift.live/_next/image?url=%2Fimages%2Fnoi.png&w=1920&q=75') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .countdown-container {
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00d1ff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00d1ff, #0099ff);
+            width: 100%;
+            transform-origin: left;
+            transform: scaleX(1);
+            transition: transform 0.5s ease;
+        }
+
+        .countdown-text {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .countdown-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .countdown-unit span:first-child {
+            font-size: 2rem;
+            color: #00d1ff;
+        }
+
+        .countdown-unit span:last-child {
+            font-size: 1rem;
+            color: #aaaaaa;
+            text-transform: uppercase;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Circular button with stopwatch icon */
+        .stopwatch-button {
+            position: absolute;
+            right: 20px;
+            top: 90%;
+            transform: translateY(-50%);
+            background-color: #00d1ff;
+            color: #000000;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .stopwatch-button:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        /* Stopwatch container */
+        .stopwatch-container {
+            display: none; /* Hidden by default */
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #00d1ff;
+        }
+
+        .stopwatch-controls {
+            margin-top: 10px;
+        }
+
+        .stopwatch-button-control {
+            background-color: #00d1ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .stopwatch-button-control:hover {
+            background-color: #0099ff;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .countdown-container {
+                width: 80%;
+                max-width: 500px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .countdown-text {
+                flex-direction: column;
+                align-items: center;
+                font-size: 1.3rem;
+            }
+
+            .countdown-unit {
+                margin: 10px 0;
+            }
+
+            .stopwatch-button {
+                top: 85%;
+            }
+
+            .stopwatch-controls {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .countdown-container {
+                width: 90%;
+                max-width: 400px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .countdown-text {
+                font-size: 1.2rem;
+            }
+
+            .stopwatch-button {
+                top: 80%;
+            }
+
+            .stopwatch-container {
+                font-size: 1.2rem;
+            }
+
+            .stopwatch-controls {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <h1>SSC 2025 Exam Countdown</h1>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="countdown-text" id="countdown-text">
+            <div class="countdown-unit">
+                <span id="days">0</span>
+                <span>Days</span>
+            </div>
+            <div class="countdown-unit">
+                <span id="hours">0</span>
+                <span>Hours</span>
+            </div>
+            <div class="countdown-unit">
+                <span id="minutes">0</span>
+                <span>Minutes</span>
+            </div>
+            <div class="countdown-unit">
+                <span id="seconds">0</span>
+                <span>Seconds</span>
+            </div>
+        </div>
+        <footer>Stay focused and achieve your goals!</footer>
+
+        <!-- Circular stopwatch button -->
+        <button class="stopwatch-button" onclick="toggleStopwatch()">⏱</button>
+
+        <!-- Stopwatch Timer -->
+        <div class="stopwatch-container" id="stopwatch-container">
+            <div id="stopwatch-display">00:00</div>
+            <div class="stopwatch-controls">
+                <button class="stopwatch-button-control" onclick="startStopwatch()">Start</button>
+                <button class="stopwatch-button-control" onclick="stopStopwatch()">Stop</button>
+                <button class="stopwatch-button-control" onclick="resetStopwatch()">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown logic
+        function updateCountdown() {
+            const targetDate = new Date("April 10, 2025 00:00:00");
+            const now = new Date();
+            const totalDuration = targetDate - new Date("2025-01-01");
+            const remainingTime = targetDate - now;
+    
+            if (remainingTime <= 0) {
+                document.getElementById("countdown-text").innerHTML = "<h2>The countdown has ended!</h2>";
+                document.getElementById("progress-bar").style.transform = "scaleX(0)";
+                return;
+            }
+    
+            const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+    
+            document.getElementById("days").textContent = days;
+            document.getElementById("hours").textContent = hours;
+            document.getElementById("minutes").textContent = minutes;
+            document.getElementById("seconds").textContent = seconds;
+    
+            const progress = remainingTime / totalDuration;
+            document.getElementById("progress-bar").style.transform = `scaleX(${progress})`;
+        }
+    
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    
+        // Stopwatch logic
+        let stopwatchInterval;
+        let stopwatchTime = 0; // In seconds
+        let isRunning = false;
+    
+        function toggleStopwatch() {
+            const stopwatchContainer = document.getElementById('stopwatch-container');
+            if (stopwatchContainer.style.display === 'none' || stopwatchContainer.style.display === '') {
+                stopwatchContainer.style.display = 'block';
+            } else {
+                stopwatchContainer.style.display = 'none';
+            }
+        }
+    
+        function updateStopwatchDisplay() {
+            const minutes = Math.floor(stopwatchTime / 60);
+            const seconds = stopwatchTime % 60;
+            document.getElementById('stopwatch-display').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+    
+        function startStopwatch() {
+            if (!isRunning) {
+                stopwatchInterval = setInterval(() => {
+                    stopwatchTime++;
+                    updateStopwatchDisplay();
+                }, 1000);
+                isRunning = true;
+            }
+        }
+    
+        function stopStopwatch() {
+            clearInterval(stopwatchInterval);
+            isRunning = false;
+        }
+    
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            stopwatchTime = 0;
+            updateStopwatchDisplay();
+            isRunning = false;
+        }
+    </script>
+    
+</body>
+</html>
