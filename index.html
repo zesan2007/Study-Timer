@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSC 2025 Exam Countdown</title>
+    <!-- FontAwesome CDN for Social Media Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         /* General Body Styling */
         body {
@@ -55,7 +57,6 @@
             letter-spacing: 2px;
             color: #00d1ff;
             margin-bottom: 30px;
-            text-align: center;
         }
 
         .progress-bar-container {
@@ -101,13 +102,21 @@
             text-transform: uppercase;
         }
 
-        footer {
-            margin-top: 40px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
+        .social-icons {
+            margin-top: 30px;
         }
 
-        /* Circular button with stopwatch icon */
+        .social-icons a {
+            color: #ffffff;
+            margin: 0 10px;
+            font-size: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #00d1ff;
+        }
+
         .stopwatch-button {
             position: absolute;
             right: 20px;
@@ -132,9 +141,8 @@
             color: #ffffff;
         }
 
-        /* Stopwatch container */
         .stopwatch-container {
-            display: none; /* Hidden by default */
+            display: none;
             margin-top: 20px;
             font-size: 1.5rem;
             color: #00d1ff;
@@ -158,61 +166,10 @@
             background-color: #0099ff;
         }
 
-        /* Media Queries for Responsiveness */
-        @media (max-width: 768px) {
-            .countdown-container {
-                width: 80%;
-                max-width: 500px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .countdown-text {
-                flex-direction: column;
-                align-items: center;
-                font-size: 1.3rem;
-            }
-
-            .countdown-unit {
-                margin: 10px 0;
-            }
-
-            .stopwatch-button {
-                top: 85%;
-            }
-
-            .stopwatch-controls {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .countdown-container {
-                width: 90%;
-                max-width: 400px;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .countdown-text {
-                font-size: 1.2rem;
-            }
-
-            .stopwatch-button {
-                top: 80%;
-            }
-
-            .stopwatch-container {
-                font-size: 1.2rem;
-            }
-
-            .stopwatch-controls {
-                font-size: 0.9rem;
-            }
+        footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
@@ -240,12 +197,15 @@
                 <span>Seconds</span>
             </div>
         </div>
-        <footer>Stay focused and achieve your goals!</footer>
+        
+        <!-- Social Media Icons -->
+        <div class="social-icons">
+            <a href="https://www.facebook.com/mahmudurzesan" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/zesan007/" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
 
-        <!-- Circular stopwatch button -->
+        <!-- Stopwatch -->
         <button class="stopwatch-button" onclick="toggleStopwatch()">⏱</button>
-
-        <!-- Stopwatch Timer -->
         <div class="stopwatch-container" id="stopwatch-container">
             <div id="stopwatch-display">00:00</div>
             <div class="stopwatch-controls">
@@ -254,44 +214,40 @@
                 <button class="stopwatch-button-control" onclick="resetStopwatch()">Reset</button>
             </div>
         </div>
+
+        <footer>Stay focused and achieve your goals!</footer>
     </div>
 
     <script>
-        // Countdown logic
+        // Countdown logic remains unchanged
         function updateCountdown() {
             const targetDate = new Date("April 10, 2025 00:00:00");
             const now = new Date();
-            const totalDuration = targetDate - new Date("2025-01-01");
             const remainingTime = targetDate - now;
-    
+
             if (remainingTime <= 0) {
                 document.getElementById("countdown-text").innerHTML = "<h2>The countdown has ended!</h2>";
-                document.getElementById("progress-bar").style.transform = "scaleX(0)";
                 return;
             }
-    
+
             const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
             const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-    
+
             document.getElementById("days").textContent = days;
             document.getElementById("hours").textContent = hours;
             document.getElementById("minutes").textContent = minutes;
             document.getElementById("seconds").textContent = seconds;
-    
-            const progress = remainingTime / totalDuration;
-            document.getElementById("progress-bar").style.transform = `scaleX(${progress})`;
         }
-    
-        const interval = setInterval(updateCountdown, 1000);
-        updateCountdown();
-    
+
+        setInterval(updateCountdown, 1000);
+
         // Stopwatch logic
         let stopwatchInterval;
-        let stopwatchTime = 0; // In seconds
+        let stopwatchTime = 0;
         let isRunning = false;
-    
+
         function toggleStopwatch() {
             const stopwatchContainer = document.getElementById('stopwatch-container');
             if (stopwatchContainer.style.display === 'none' || stopwatchContainer.style.display === '') {
@@ -300,13 +256,13 @@
                 stopwatchContainer.style.display = 'none';
             }
         }
-    
+
         function updateStopwatchDisplay() {
             const minutes = Math.floor(stopwatchTime / 60);
             const seconds = stopwatchTime % 60;
             document.getElementById('stopwatch-display').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
-    
+
         function startStopwatch() {
             if (!isRunning) {
                 stopwatchInterval = setInterval(() => {
@@ -316,19 +272,34 @@
                 isRunning = true;
             }
         }
-    
+
         function stopStopwatch() {
             clearInterval(stopwatchInterval);
             isRunning = false;
         }
-    
+
         function resetStopwatch() {
             clearInterval(stopwatchInterval);
             stopwatchTime = 0;
             updateStopwatchDisplay();
             isRunning = false;
         }
+         // Disable right-click
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+
+    // Disable specific key combinations
+    document.addEventListener('keydown', (e) => {
+        // Prevent F12, Ctrl+Shift+I, Ctrl+U, and Ctrl+Shift+J
+        if (
+            e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || 
+            (e.ctrlKey && e.key === 'U')
+        ) {
+            e.preventDefault();
+        }
+    });
     </script>
-    
 </body>
 </html>
