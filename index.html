@@ -1,305 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSC 2025 Exam Countdown</title>
-    <!-- FontAwesome CDN for Social Media Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        /* General Body Styling */
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: url('https://marketplace.canva.com/EAF0EYsYmsM/1/0/1600w/canva-dark-green-minimalist-illustrated-night-sky-city-landscape-desktop-wallpaper-TGFaNndAajw.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #ffffff;
-            position: relative;
-            overflow: hidden;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Study Focus Hub — Space</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0f16;
+    --panel: rgba(18,20,24,0.72);
+    --muted:#bfc9d1;
+    --accent:#80d0ff; /* soft cool accent */
+    --accent-2:#9be6c2;
+    --glass-border: rgba(255,255,255,0.04);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    min-height:100%;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-font-smoothing:antialiased;
+    background:
+      linear-gradient(180deg, rgba(4,8,15,0.6) 0%, rgba(6,10,18,0.88) 100%),
+      url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat fixed;
+    color:var(--muted);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px;
+  }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://www.timedrift.live/_next/image?url=%2Fimages%2Fnoi.png&w=1920&q=75') no-repeat center center fixed;
-            background-size: cover;
-            opacity: 0.2;
-            z-index: 0;
-            pointer-events: none;
-        }
+  /* main card */
+  .card{
+    width:100%;
+    max-width:960px;
+    border-radius:18px;
+    background: linear-gradient(180deg, rgba(22,24,28,0.62), rgba(16,18,22,0.56));
+    border:1px solid var(--glass-border);
+    box-shadow: 0 20px 40px rgba(2,6,12,0.6);
+    padding:34px;
+    backdrop-filter: blur(8px) saturate(1.05);
+  }
 
-        .countdown-container {
-            text-align: center;
-            width: 90%;
-            max-width: 600px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
-            z-index: 1;
-            position: relative;
-        }
+  /* layout: left info column + center large timer */
+  .top-row{ display:flex; gap:24px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+  .left {
+    min-width:220px;
+    max-width:320px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .brand{
+    font-family: "Space Grotesk", Inter, sans-serif;
+    color:var(--accent-2);
+    font-weight:600;
+    font-size:20px;
+    letter-spacing:0.6px;
+  }
+  .quote{
+    font-size:14px;
+    color: #c9d6df;
+    opacity:0.95;
+    line-height:1.35;
+    margin-top:6px;
+  }
 
-        h1 {
-            font-size: 2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #00d1ff;
-            margin-bottom: 30px;
-        }
+  /* center timer block */
+  .center {
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:16px;
+  }
+  .timer {
+    font-family: "Space Grotesk", Inter, sans-serif;
+    font-size:86px;
+    color: #eaf6ff;
+    letter-spacing: -2px;
+    line-height:0.9;
+    margin:0;
+    text-align:center;
+  }
+  @media (max-width:640px){
+    .timer{font-size:48px}
+  }
 
-        .progress-bar-container {
-            width: 100%;
-            height: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
+  .controls{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:center;
+    margin-top:6px;
+    flex-wrap:wrap;
+  }
 
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #00d1ff, #0099ff);
-            width: 100%;
-            transform-origin: left;
-            transform: scaleX(1);
-            transition: transform 0.5s ease;
-        }
+  button.btn{
+    appearance:none;
+    border:0;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    color: #081019;
+    background:linear-gradient(180deg, #bfefff, #7fc9ff);
+    box-shadow: 0 6px 18px rgba(31,39,54,0.18);
+    transition: transform .14s ease, opacity .12s ease;
+  }
+  button.btn:active{ transform: translateY(1px) }
+  button.ghost{
+    background:transparent;
+    color:var(--muted);
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow:none;
+  }
+  button.warn{
+    background:linear-gradient(180deg,#ffd7ce,#ff9b8a);
+    color:#22110b;
+  }
 
-        .countdown-text {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+  /* right column: totals + inputs */
+  .right {
+    min-width:240px;
+    max-width:320px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:flex-end;
+  }
 
-        .countdown-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  .stat{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:12px 14px;
+    border-radius:12px;
+    font-size:14px;
+    color:var(--muted);
+    width:100%;
+    text-align:left;
+    border:1px solid rgba(255,255,255,0.02);
+  }
+  .stat b{ color:#ffffff; margin-right:6px }
 
-        .countdown-unit span:first-child {
-            font-size: 2rem;
-            color: #00d1ff;
-        }
+  .input-row{ display:flex; gap:8px; width:100%; }
+  .input{
+    flex:1;
+    padding:10px 12px;
+    background:#0f1216;
+    color: #d6eaf0;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.03);
+    outline:none;
+  }
+  .small-btn{
+    padding:9px 12px;
+    border-radius:10px;
+    border:0;
+    font-weight:600;
+    background:#1b2835;
+    color: #dffcff;
+    cursor:pointer;
+  }
 
-        .countdown-unit span:last-child {
-            font-size: 1rem;
-            color: #aaaaaa;
-            text-transform: uppercase;
-        }
+  /* iframe video area */
+  .video-wrap{
+    margin-top:20px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+  iframe{
+    width:420px;
+    height:230px;
+    border-radius:10px;
+    border:0;
+    background:#000;
+    transition: opacity .36s ease, height .36s ease;
+  }
+  iframe.hidden{ opacity:0; height:0; pointer-events:none }
 
-        .social-icons {
-            margin-top: 30px;
-        }
+  /* footer fixed */
+  footer.fixed {
+    position:fixed;
+    left:0; right:0; bottom:0;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    background: linear-gradient(180deg, rgba(6,8,10,0.65), rgba(6,8,10,0.78));
+    border-top:1px solid rgba(255,255,255,0.02);
+    color:#bfc9d1;
+    font-size:13px;
+    z-index:90;
+  }
+  footer.fixed a{ color:var(--accent); text-decoration:none; font-weight:600 }
+  footer.fixed a:hover{ text-decoration:underline }
 
-        .social-icons a {
-            color: #ffffff;
-            margin: 0 10px;
-            font-size: 2rem;
-            transition: color 0.3s ease;
-        }
+  /* responsive tweaks */
+  @media (max-width:920px){
+    .top-row{ flex-direction:column; align-items:stretch }
+    .right{ align-items:stretch }
+    iframe{ width:100% }
+  }
 
-        .social-icons a:hover {
-            color: #00d1ff;
-        }
-
-        .stopwatch-button {
-            position: absolute;
-            right: 20px;
-            top: 90%;
-            transform: translateY(-50%);
-            background-color: #00d1ff;
-            color: #000000;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-        }
-
-        .stopwatch-button:hover {
-            background-color: #000000;
-            color: #ffffff;
-        }
-
-        .stopwatch-container {
-            display: none;
-            margin-top: 20px;
-            font-size: 1.5rem;
-            color: #00d1ff;
-        }
-
-        .stopwatch-controls {
-            margin-top: 10px;
-        }
-
-        .stopwatch-button-control {
-            background-color: #00d1ff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 0 5px;
-        }
-
-        .stopwatch-button-control:hover {
-            background-color: #0099ff;
-        }
-
-        footer {
-            margin-top: 40px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-    </style>
+</style>
 </head>
 <body>
-    <div class="countdown-container">
-        <h1>SSC 2025 Exam Countdown</h1>
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        <div class="countdown-text" id="countdown-text">
-            <div class="countdown-unit">
-                <span id="days">0</span>
-                <span>Days</span>
-            </div>
-            <div class="countdown-unit">
-                <span id="hours">0</span>
-                <span>Hours</span>
-            </div>
-            <div class="countdown-unit">
-                <span id="minutes">0</span>
-                <span>Minutes</span>
-            </div>
-            <div class="countdown-unit">
-                <span id="seconds">0</span>
-                <span>Seconds</span>
-            </div>
-        </div>
-        
-        <!-- Social Media Icons -->
-        <div class="social-icons">
-            <a href="https://www.facebook.com/mahmudurzesan" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://www.instagram.com/zesan007/" target="_blank"><i class="fab fa-instagram"></i></a>
+  <div class="card" role="application" aria-label="Study Focus Hub">
+    <div class="top-row">
+      <div class="left">
+        <div class="brand">Study Focus</div>
+        <div class="quote" id="quote">Loading motivation…</div>
+      </div>
+
+      <div class="center" style="padding:8px 18px 4px 18px">
+        <h1 class="timer" id="timer">00:00:00</h1>
+
+        <div class="controls" aria-hidden="false">
+          <button id="startBtn" class="btn">Start</button>
+          <button id="pauseBtn" class="btn ghost">Pause</button>
+          <button id="resetBtn" class="btn ghost warn">Reset</button>
         </div>
 
-        <!-- Stopwatch -->
-        <button class="stopwatch-button" onclick="toggleStopwatch()">⏱</button>
-        <div class="stopwatch-container" id="stopwatch-container">
-            <div id="stopwatch-display">00:00</div>
-            <div class="stopwatch-controls">
-                <button class="stopwatch-button-control" onclick="startStopwatch()">Start</button>
-                <button class="stopwatch-button-control" onclick="stopStopwatch()">Stop</button>
-                <button class="stopwatch-button-control" onclick="resetStopwatch()">Reset</button>
-            </div>
+        <div style="margin-top:10px; font-size:13px; color:var(--muted)"><span id="sessionLabel">Current session</span></div>
+      </div>
+
+      <div class="right">
+        <div class="stat">Monthly total: <b id="totalHours">0.00</b> hrs</div>
+
+        <div style="width:100%;">
+          <label style="display:block; font-size:12px; color:#9fb6bd; margin-bottom:6px">YouTube URL</label>
+          <div class="input-row">
+            <input id="youtubeLink" class="input" placeholder="paste youtube link (or id)"/>
+            <button id="playMusicBtn" class="small-btn">Play</button>
+            <button id="toggleVideoBtn" class="small-btn">Hide</button>
+          </div>
         </div>
 
-        <footer>Stay focused and achieve your goals!</footer>
+        <div style="width:100%;">
+          <label style="display:block; font-size:12px; color:#9fb6bd; margin-bottom:6px">Background image (optional)</label>
+          <div class="input-row">
+            <input id="bgLink" class="input" placeholder="paste image url (space/galaxy style)"/>
+            <button id="bgBtn" class="small-btn">Apply</button>
+          </div>
+        </div>
+
+        <div class="stat" style="margin-top:8px; font-size:13px">Tip: Click <b>New</b> to save session and immediately begin a new one.</div>
+      </div>
     </div>
 
-    <script>
-        // Countdown logic remains unchanged
-        function updateCountdown() {
-            const targetDate = new Date("April 10, 2025 00:00:00");
-            const now = new Date();
-            const remainingTime = targetDate - now;
+    <div class="video-wrap" style="margin-top:18px">
+      <iframe id="ytplayer" src="https://www.youtube.com/embed/5qap5aO4i9A?rel=0&autoplay=0" allow="autoplay; encrypted-media" title="Player"></iframe>
+      <div style="flex:1; min-width:240px; display:flex; align-items:center; justify-content:center; color:var(--muted)">
+        <div style="font-size:13px; text-align:center; max-width:320px; opacity:0.9">
+          Use the player for ambient music. Hiding the video keeps audio playing so you can focus.
+        </div>
+      </div>
+    </div>
+  </div>
 
-            if (remainingTime <= 0) {
-                document.getElementById("countdown-text").innerHTML = "<h2>The countdown has ended!</h2>";
-                return;
-            }
+  <footer class="fixed" role="contentinfo">
+    Made by <strong style="color:var(--accent-2); margin-left:6px; margin-right:8px">zesan007</strong>
+    • <a href="https://www.facebook.com/mahmudurzesan" target="_blank" rel="noopener">Facebook</a>
+    • <a href="https://www.instagram.com/zesan007/" target="_blank" rel="noopener">Instagram</a>
+  </footer>
 
-            const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+<script>
+  // Elements
+  const timerEl = document.getElementById('timer');
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const totalHoursEl = document.getElementById('totalHours');
+  const quoteEl = document.getElementById('quote');
+  const youtubeInput = document.getElementById('youtubeLink');
+  const playMusicBtn = document.getElementById('playMusicBtn');
+  const ytPlayer = document.getElementById('ytplayer');
+  const toggleVideoBtn = document.getElementById('toggleVideoBtn');
+  const bgInput = document.getElementById('bgLink');
+  const bgBtn = document.getElementById('bgBtn');
 
-            document.getElementById("days").textContent = days;
-            document.getElementById("hours").textContent = hours;
-            document.getElementById("minutes").textContent = minutes;
-            document.getElementById("seconds").textContent = seconds;
-        }
+  // Timer state
+  let startTime = 0, elapsed = 0, tick = null;
+  let running = false, paused = false;
+  let totalHours = 0;
+  let savedMonth = new Date().getMonth();
+  let videoHidden = false;
 
-        setInterval(updateCountdown, 1000);
+  // Format ms -> HH:MM:SS
+  function fmt(ms){
+    const s = Math.floor(ms/1000);
+    const hh = Math.floor(s/3600);
+    const mm = Math.floor((s%3600)/60);
+    const ss = s%60;
+    return `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+  }
+  function tickUpdate(){
+    const now = Date.now();
+    const diff = now - startTime + elapsed;
+    timerEl.textContent = fmt(diff);
+  }
 
-        // Stopwatch logic
-        let stopwatchInterval;
-        let stopwatchTime = 0;
-        let isRunning = false;
+  // START -> New behavior:
+  // - Clicking Start sets running=true and button shows "New"
+  // - Clicking "New" adds the current session to monthly total AND immediately resets timer and starts a fresh session
+  startBtn.addEventListener('click', ()=>{
+    if(!running && startBtn.textContent === 'Start'){
+      // begin
+      running = true; paused = false;
+      startTime = Date.now();
+      tick = setInterval(tickUpdate, 500);
+      startBtn.textContent = 'New';
+      pauseBtn.textContent = 'Pause';
+    } else if(startBtn.textContent === 'New'){
+      // save current session to total
+      // compute current session seconds
+      const [h,m,s] = timerEl.textContent.split(':').map(Number);
+      const hours = h + m/60 + s/3600;
+      totalHours += hours;
+      totalHoursEl.textContent = totalHours.toFixed(2);
+      // Immediately reset timer and start a new session
+      elapsed = 0;
+      startTime = Date.now();
+      timerEl.textContent = '00:00:00';
+      // keep running true, keep button as 'New'
+      // (we want it to "start again" right away)
+      // small visual: reset display then continue
+      // (no change to pause state)
+    }
+  });
 
-        function toggleStopwatch() {
-            const stopwatchContainer = document.getElementById('stopwatch-container');
-            if (stopwatchContainer.style.display === 'none' || stopwatchContainer.style.display === '') {
-                stopwatchContainer.style.display = 'block';
-            } else {
-                stopwatchContainer.style.display = 'none';
-            }
-        }
+  // Pause / Resume
+  pauseBtn.addEventListener('click', ()=>{
+    if(!running) return;
+    if(!paused){
+      // pause
+      paused = true;
+      pauseBtn.textContent = 'Resume';
+      clearInterval(tick);
+      elapsed += Date.now() - startTime;
+    } else {
+      // resume
+      paused = false;
+      pauseBtn.textContent = 'Pause';
+      startTime = Date.now();
+      tick = setInterval(tickUpdate, 500);
+    }
+  });
 
-        function updateStopwatchDisplay() {
-            const minutes = Math.floor(stopwatchTime / 60);
-            const seconds = stopwatchTime % 60;
-            document.getElementById('stopwatch-display').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        }
+  // Reset (clear current session only)
+  resetBtn.addEventListener('click', ()=>{
+    clearInterval(tick);
+    running = false; paused = false;
+    elapsed = 0;
+    timerEl.textContent = '00:00:00';
+    startBtn.textContent = 'Start';
+    pauseBtn.textContent = 'Pause';
+  });
 
-        function startStopwatch() {
-            if (!isRunning) {
-                stopwatchInterval = setInterval(() => {
-                    stopwatchTime++;
-                    updateStopwatchDisplay();
-                }, 1000);
-                isRunning = true;
-            }
-        }
+  // Monthly reset: check daily
+  setInterval(()=>{
+    const now = new Date();
+    if(now.getMonth() !== savedMonth){
+      savedMonth = now.getMonth();
+      totalHours = 0;
+      totalHoursEl.textContent = totalHours.toFixed(2);
+    }
+  }, 86400000);
 
-        function stopStopwatch() {
-            clearInterval(stopwatchInterval);
-            isRunning = false;
-        }
+  // Quotes
+  const quotes = [
+    "Small steps every day lead to big results.",
+    "Focus on progress, not perfection.",
+    "You become what you repeat daily.",
+    "Stay consistent — even 1% better matters.",
+    "Discipline is doing what needs to be done, even when you don’t feel like it.",
+    "One more hour now. One more win later."
+  ];
+  quoteEl.textContent = quotes[Math.floor(Math.random()*quotes.length)];
 
-        function resetStopwatch() {
-            clearInterval(stopwatchInterval);
-            stopwatchTime = 0;
-            updateStopwatchDisplay();
-            isRunning = false;
-        }
-         // Disable right-click
-    document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-    });
+  // YouTube: parse video id (handles v= and short urls)
+  function parseYouTubeId(url){
+    if(!url) return '';
+    // If it's already an id (short), accept
+    if(/^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
+    try{
+      // try to parse v= param
+      const vmatch = url.match(/[?&]v=([^&]+)/);
+      if(vmatch && vmatch[1]) return vmatch[1];
+      // handle youtu.be/ID or /embed/ID
+      const parts = url.split('/');
+      return parts.pop() || parts.pop(); // last segment
+    }catch(e){ return '' }
+  }
 
-    // Disable specific key combinations
-    document.addEventListener('keydown', (e) => {
-        // Prevent F12, Ctrl+Shift+I, Ctrl+U, and Ctrl+Shift+J
-        if (
-            e.key === 'F12' || 
-            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || 
-            (e.ctrlKey && e.key === 'U')
-        ) {
-            e.preventDefault();
-        }
-    });
-    </script>
+  playMusicBtn.addEventListener('click', ()=>{
+    const id = parseYouTubeId(youtubeInput.value.trim());
+    if(!id) return;
+    // autoplay (1). modest branding off
+    ytPlayer.src = `https://www.youtube.com/embed/${id}?rel=0&autoplay=1&modestbranding=1`;
+    // ensure visible
+    if(videoHidden){ ytPlayer.classList.remove('hidden'); toggleVideoBtn.textContent = 'Hide'; videoHidden=false; }
+  });
+
+  // Hide/show video but keep audio playing — we hide iframe visually only
+  toggleVideoBtn.addEventListener('click', ()=>{
+    if(!videoHidden){
+      ytPlayer.classList.add('hidden');
+      videoHidden = true;
+      toggleVideoBtn.textContent = 'Show';
+    } else {
+      ytPlayer.classList.remove('hidden');
+      videoHidden = false;
+      toggleVideoBtn.textContent = 'Hide';
+    }
+  });
+
+  // Background change (applies dark overlay to keep contrast)
+  bgBtn.addEventListener('click', ()=>{
+    const url = bgInput.value.trim();
+    if(!url) return;
+    document.body.style.background = `linear-gradient(180deg, rgba(4,8,15,0.6), rgba(6,10,18,0.88)), url('${url}') center/cover no-repeat fixed`;
+  });
+
+  // Accessibility: keyboard start/stop via space
+  document.addEventListener('keydown', (e)=>{
+    if(e.code === 'Space'){
+      e.preventDefault();
+      startBtn.click();
+    } else if(e.key === 'p' || e.key === 'P'){
+      pauseBtn.click();
+    }
+  });
+
+  // Initialize UI values
+  totalHoursEl.textContent = totalHours.toFixed(2);
+</script>
 </body>
 </html>
